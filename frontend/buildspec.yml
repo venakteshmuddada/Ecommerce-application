@@ -8,6 +8,7 @@ phases:
   build:
     commands:
       - echo Building Docker image...
+      - cd frontend
       - docker build -t ecommerce-frontend .
       - docker tag ecommerce-frontend:latest 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-frontend-repo:latest
   post_build:
@@ -15,6 +16,7 @@ phases:
       - echo Pushing image to ECR...
       - docker push 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-frontend-repo:latest
       - echo Writing imagedefinitions.json...
+      - cd ..
       - printf '[{"name":"frontend","imageUri":"%s"}]' 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-frontend-repo:latest > imagedefinitions.json
 
 artifacts:
