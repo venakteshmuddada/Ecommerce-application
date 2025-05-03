@@ -5,11 +5,13 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 703671891941.dkr.ecr.us-east-1.amazonaws.com
+
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t ecommerce-frontend .
+      - docker build -t ecommerce-frontend ./frontend
       - docker tag ecommerce-frontend:latest 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-frontend-repo:latest
+
   post_build:
     commands:
       - echo Pushing image to ECR...
