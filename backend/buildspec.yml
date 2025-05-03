@@ -4,16 +4,16 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <your_account_id>.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 703671891941.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Building Docker image...
       - docker build -t ecommerce-backend .
-      - docker tag ecommerce-backend:latest <your_account_id>.dkr.ecr.us-east-1.amazonaws.com/ecommerce-backend-repo:latest
+      - docker tag ecommerce-backend:latest 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-backend-repo:latest
   post_build:
     commands:
       - echo Pushing image to ECR...
-      - docker push <your_account_id>.dkr.ecr.us-east-1.amazonaws.com/ecommerce-backend-repo:latest
+      - docker push 703671891941.dkr.ecr.us-east-1.amazonaws.com/ecommerce-backend-repo:latest
 
 artifacts:
   files: '**/*'
