@@ -1,3 +1,4 @@
+
 resource "aws_iam_role" "codepipeline_role" {
   name = "codepipeline-role"
   assume_role_policy = jsonencode({
@@ -26,9 +27,19 @@ resource "aws_iam_role" "codebuild_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "codebuild_logs" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "codebuild_policy" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_ecr_access" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
 
 resource "aws_iam_policy" "codepipeline_s3_access" {
@@ -65,6 +76,35 @@ resource "aws_iam_policy" "codepipeline_s3_access" {
     ]
   })
 }
+
+resource "aws_iam_policy" "codepipeline_ecs_access" {
+  name = "codepipeline-ecs-access"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ecs:DescribeServices",
+          "ecs:DescribeTaskDefinition",
+          "ecs:DescribeTasks",
+          "ecs:ListTasks",
+          "ecs:RegisterTaskDefinition",
+          "ecs:UpdateService",
+          "iam:PassRole"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "attach_codepipeline_ecs" {
+  name       = "codepipeline-ecs-attach"
+  roles      = [aws_iam_role.codepipeline_role.name]
+  policy_arn = aws_iam_policy.codepipeline_ecs_access.arn
+}
+
 
 resource "aws_iam_policy_attachment" "attach_codepipeline_s3" {
   name       = "codepipeline-s3-attach"
@@ -160,6 +200,6 @@ resource "aws_codebuild_project" "ecommerce_build" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec.yml"
+    buildspec = "frontend/buildspec.yml"
   }
 }
