@@ -10,6 +10,18 @@ resource "aws_lb" "ecs_alb" {
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
+resource "aws_lb_listener" "backend_listener" {
+  load_balancer_arn = aws_lb.ecs_alb.arn
+  port              = 3000
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.backend_tg.arn
+  }
+}
+
+
 resource "aws_lb_listener" "frontend_test_listener" {
   load_balancer_arn = aws_lb.ecs_alb.arn
   port              = 9000
@@ -49,6 +61,42 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
+resource "aws_security_group" "ecs_sg" {
+  name        = "ecs-sg"
+  description = "Security group for ECS tasks"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ecs-sg"
+  }
+}
+
+resource "aws_lb_target_group" "backend_tg" {
+  name     = "backend-tg"
+  port     = 3000
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+  target_type = "ip"
+  health_check {
+    path = "/"
+    port = "3000"
+  }
+}
+
 resource "aws_lb_target_group" "frontend_tg" {
   name        = "frontend-tg"
   port        = 80
@@ -67,3 +115,4 @@ resource "aws_lb_listener" "frontend_listener" {
     target_group_arn = aws_lb_target_group.frontend_tg.arn
   }
 }
+
