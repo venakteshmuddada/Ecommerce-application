@@ -12,9 +12,10 @@ Add folders: frontend/, backend/, infrastructure/terraform/, buildspec.yml, scri
 ✅ Module 1: VPC and Networking (Skip if using existing VPC/Subnets)
 Since you've shared:
 
-VPC: vpc-045409f9dc02cd4e1
+**VPC: vpc-045409f9dc02cd4e1
 
-Subnets: subnet-0a37cf861b1a56e2b, subnet-0303a79a44a64c950
+Subnets: subnet-0a37cf861b1a56e2b, subnet-0303a79a44a64c950**
+![VPC](https://github.com/user-attachments/assets/38c15018-0b3d-444f-84fa-fd7a2075176d)
 
 We'll reference these in modules instead of creating new ones.
 
@@ -39,6 +40,8 @@ Store:
 Static frontend assets
 
 Build artifacts
+![bucket](https://github.com/user-attachments/assets/2a504be8-7467-4434-bee6-a4ed6aee57d4)
+
 
 ✅ Module 4: RDS MySQL
 Private DB with:
@@ -55,13 +58,11 @@ Use ALB for routing
 Dockerize both applications
 
 ✅ Module 6: Cognito
-For authentication (User Pool, App Client, Domain)
+For authentication (User Pool, App Client, Domain) -** Not configured**
 
 ⚙️ Phase 3: Application Development & Dockerization
 ✅ Folder Structure
-bash
-Copy
-Edit
+
 ecommerce-app/
 ├── frontend/ (React)
 ├── backend/ (Node.js + Express + MySQL config)
@@ -75,12 +76,12 @@ Build React app
 Serve via Nginx
 
 Backend app with MySQL integration
+![RDS](https://github.com/user-attachments/assets/99f5e49a-ba91-4d6b-8829-700b1756e3df)
+
 
 🚀 Phase 4: CI/CD Pipeline
 ✅ Pipeline Flow
-bash
-Copy
-Edit
+
 GitHub Push → CodePipeline → CodeBuild (frontend/backend) → ECS deploy via CodeDeploy
 ✅ Terraform Resources
 aws_codepipeline
@@ -88,6 +89,7 @@ aws_codepipeline
 aws_codebuild_project
 
 aws_codedeploy_app + deployment_group
+![pipeline sucessful](https://github.com/user-attachments/assets/ada61f7f-5ebb-4211-a011-fe3b48d00ad5)
 
 ✅ Scripts
 buildspec.yml: For CodeBuild
@@ -102,6 +104,7 @@ RDS metrics
 
 ✅ Logging:
 Enable CloudWatch logs in ECS task definitions
+![Cloudwatch](https://github.com/user-attachments/assets/e8b3d8f5-9672-4f56-82ce-b4c2b1431e8d)
 
 📁 Terraform modules attached:
 
@@ -114,3 +117,6 @@ Dockerfiles (for frontend and backend)
 Application boilerplate (basic React frontend & Node.js backend)
 
 GitHub project push structure
+
+
+**GitHub Push → CodePipeline → CodeBuild (frontend/backend) → ECS deploy via CodeDeploy**
