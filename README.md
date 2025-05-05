@@ -20,6 +20,8 @@ We'll reference these in modules instead of creating new ones.
 
 ✅ Module 2: IAM Roles
 Create roles for:
+![Terraform execution0305](https://github.com/user-attachments/assets/d8b8f2aa-3912-43f6-9abe-d0371c8f2782)
+
 
 ECS Task Execution
 
