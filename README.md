@@ -120,3 +120,7 @@ GitHub project push structure
 
 
 **GitHub Push → CodePipeline → CodeBuild (frontend/backend) → ECS deploy via CodeDeploy**
+
+![Ecommerse web](https://github.com/user-attachments/assets/2ad6b050-1289-49a0-8261-f4564543e77e)
+![ec2backendurl](https://github.com/user-attachments/assets/f5809e48-13a7-4450-9046-f9402acc659f)
+
